@@ -1,0 +1,26 @@
+---
+
+- name: Copy across configs
+  copy: 
+    src: configs
+    dest: /etc/consul-template
+    owner: root
+    group: root
+    mode: 0640
+
+- name: Copy across ctmpl files
+  copy: 
+    src: ctmpl-files
+    dest: /etc/consul-template
+    owner: root
+    group: root 
+    mode: 0640
+
+
+- name: Copy across ansible playbooks 
+  copy: 
+    src: playbooks
+    dest: /etc/consul-template/ansible
+    owner: root
+    group: root
+    mode: 0640

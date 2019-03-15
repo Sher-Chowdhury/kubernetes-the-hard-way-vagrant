@@ -1,0 +1,5 @@
+---
+
+- include_tasks: install-consul-template-binary.yml
+- include_tasks: configure-consul-template.yml
+- include_tasks: setup-consul-template-daemon.yml

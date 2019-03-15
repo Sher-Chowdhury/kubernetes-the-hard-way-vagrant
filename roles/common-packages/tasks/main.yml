@@ -1,0 +1,22 @@
+---
+
+- name: install the epel-release rpm 
+  yum:
+    name: "epel-release"
+    state: present
+
+- name: Install common set of rpms that should be installed on all boxes. 
+  yum:
+    name: "{{ packages }}"
+    state: present
+  vars:
+    packages:
+      - unzip
+      - vim
+      - bash-completion
+      - man-pages
+      - bash-completion-extras
+      - nc
+      - jq
+      - bind-utils
+      - ansible
