@@ -29,59 +29,59 @@ ensure_plugins required_plugins
 
 
 Vagrant.configure(2) do |config|
-  config.vm.define "consul_server" do |consul_server|
-    consul_server.vm.box = "bento/centos-7.6"
-    consul_server.vm.hostname = "consul-server.example.com"
+  config.vm.define "kube_master" do |kube_master|
+    kube_master.vm.box = "bento/ubuntu-16.04"
+    kube_master.vm.hostname = "kube-master.example.com"
     # https://www.vagrantup.com/docs/virtualbox/networking.html
-    consul_server.vm.network "private_network", ip: "10.2.5.110", :netmask => "255.255.255.0", virtualbox__intnet: "intnet2"
+    #kube_master.vm.network "private_network", ip: "10.2.5.110", :netmask => "255.255.255.0", virtualbox__intnet: "intnet2"
 
-    consul_server.vm.network "forwarded_port", guest: 8500, host: 8500, protocol: 'tcp'
+    kube_master.vm.network "forwarded_port", guest: 8500, host: 8500, protocol: 'tcp'
 
 
-    consul_server.vm.provider "virtualbox" do |vb|
+    kube_master.vm.provider "virtualbox" do |vb|
       vb.gui = true
       vb.memory = "1024"
       vb.cpus = 2
       vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
-      vb.name = "centos7_consul_server"
+      vb.name = "centos7_kube_master"
     end
 
-    consul_server.vm.provision "ansible" do |ansible|
-      ansible.extra_vars = {
-        vm_role: "consul_server"
-      }
-      ansible.playbook = "setup-consul.yml"
+    kube_master.vm.provision "ansible" do |ansible|
+#      ansible.extra_vars = {
+#        vm_role: "kube_master"
+#      }
+      ansible.playbook = "setup-kube-master.yml"
     end
 
 
   end
 
 
-  config.vm.define "consul_agent" do |consul_agent|
-    consul_agent.vm.box = "bento/centos-7.6"
-    consul_agent.vm.hostname = "consul-agent.example.com"
-    consul_agent.vm.network "private_network", ip: "10.0.2.16"
-    consul_agent.vm.network "private_network", ip: "10.2.5.111", :netmask => "255.255.255.0", virtualbox__intnet: "intnet2"
+  config.vm.define "kube_worker" do |kube_worker|
+    kube_worker.vm.box = "bento/ubuntu-16.04"
+    kube_worker.vm.hostname = "kube-worker.example.com"
+    kube_worker.vm.network "private_network", ip: "10.0.2.16"
+    #kube_worker.vm.network "private_network", ip: "10.2.5.111", :netmask => "255.255.255.0", virtualbox__intnet: "intnet2"
 
-    consul_agent.vm.provider "virtualbox" do |vb|
+    kube_worker.vm.provider "virtualbox" do |vb|
       vb.gui = true
       vb.memory = "1024"
       vb.cpus = 2
-      vb.name = "centos7_consul_agent"
+      vb.name = "centos7_kube_worker"
     end
 
-    consul_agent.vm.provision "ansible" do |ansible|
-      ansible.extra_vars = {
-        vm_role: "webserver"
-      }
-      ansible.playbook = "setup-consul.yml"
-    end
+#    kube_worker.vm.provision "ansible" do |ansible|
+#      ansible.extra_vars = {
+#        vm_role: "webserver"
+#      }
+#      ansible.playbook = "setup-kube-worker.yml"
+#    end
 
   end
 
   config.vm.provision :hosts do |provisioner|
-    provisioner.add_host '10.2.5.110', ['consul-server.example.com']
-    provisioner.add_host '10.2.5.111', ['consul-agent.example.com']
+    provisioner.add_host '10.2.5.110', ['kube-master.example.com']
+    provisioner.add_host '10.2.5.111', ['kube-worker.example.com']
   end
 
 end

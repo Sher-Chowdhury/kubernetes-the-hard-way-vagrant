@@ -1,9 +1,0 @@
----
-
-- name: deploy consul-server.hcl config file
-  template: 
-    src: consul-server.hcl.j2
-    dest: /etc/consul.d/consul-server.hcl
-    owner: consul
-    group: consul
-    mode: 0640

@@ -1,7 +1,0 @@
----
-
-- include_tasks: install-consul-binary.yml
-- include_tasks: setup-consul-server.yml
-  when: vm_role == 'consul_server'
-- include_tasks: setup-consul-agent.yml
-- include_tasks: setup-consul-daemon.yml
