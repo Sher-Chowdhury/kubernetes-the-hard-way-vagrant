@@ -20,4 +20,18 @@
     - https://docs.projectcalico.org/v3.3/getting-started/kubernetes/installation/hosted/rbac-kdd.yaml
     - https://docs.projectcalico.org/v3.3/getting-started/kubernetes/installation/hosted/kubernetes-datastore/calico-networking/1.7/calico.yaml
  # the calico.yaml file specifies the default pod cidr. You can update this if you like. This is also the value 
- # that needs to be fed into the kubeadm init command .
+ # that needs to be fed into the kubeadm init command.
+
+
+
+- name: Run kubeadm init command
+  command: /usr/bin/kubeadm init --pod-network-cidr=192.168.0.0/16
+#  args:
+#    creates:
+  register: kubeadm_init_output
+
+
+- name: kubeadm init output
+  copy:
+    content: "{{ kubeadm_init_output }}"
+    dest: /root/kubernetes/kubeadm_init_output.txt
