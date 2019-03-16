@@ -31,7 +31,7 @@
       - kubelet 
       - kubeadm 
       - kubectl 
-      - docker.io
+      - docker.io=18.06.1-0ubuntu1.2~16.04.1  # apt-cache madison docker.io   # https://askubuntu.com/questions/447/how-can-i-see-all-versions-of-a-package-that-are-available-in-the-archive
       - bash-completion
 
 
