@@ -1,0 +1,43 @@
+---
+
+- name: Run kubeadm init command
+  command: /usr/bin/kubeadm init --pod-network-cidr=192.168.0.0/16
+  args:
+    creates: /etc/kubernetes/kubelet.conf
+  register: kubeadm_init_output
+
+
+- name: kubeadm init output
+  copy:
+    content: "{{ kubeadm_init_output.stdout }}"
+    dest: /vagrant/kube_cache/kubeadm_init_output.txt
+  when: kubeadm_init_output.changed
+
+
+- name: Create kubectl client config folder
+  file:
+    path: /root/.kube
+    state: directory
+    mode: 0755
+
+- name: copy kubectl client file to config folder
+  copy:
+    src: /etc/kubernetes/admin.conf
+    dest: /root/.kube/config
+    remote_src: yes
+# you should now be able to run the kubectl command, e.g.: kubectl get nodes
+
+- name: enable kubectl autocomplete
+  shell: /bin/echo "source <(kubectl completion bash)" >> ~/.bashrc
+  when: kubeadm_init_output.changed
+
+# At this point we should have:
+# $ kubectl get pods --namespace=kube-system -o wide
+#NAME                                  READY   STATUS    RESTARTS   AGE    IP          NODE          NOMINATED NODE   READINESS GATES
+#coredns-86c58d9df4-r8bsg              0/1     Pending   0          107m   <none>      <none>        <none>           <none>
+#coredns-86c58d9df4-xz7wb              0/1     Pending   0          107m   <none>      <none>        <none>           <none>
+#etcd-kube-master                      1/1     Running   0          106m   10.0.2.15   kube-master   <none>           <none>
+#kube-apiserver-kube-master            1/1     Running   0          106m   10.0.2.15   kube-master   <none>           <none>
+#kube-controller-manager-kube-master   1/1     Running   0          106m   10.0.2.15   kube-master   <none>           <none>
+#kube-proxy-xvt5l                      1/1     Running   0          107m   10.0.2.15   kube-master   <none>           <none>
+#kube-scheduler-kube-master            1/1     Running   0          107m   10.0.2.15   kube-master   <none>           <none>
