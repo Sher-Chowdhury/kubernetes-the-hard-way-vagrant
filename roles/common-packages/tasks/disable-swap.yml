@@ -7,10 +7,6 @@
     state: absent
   register: lineinfile_result
 
-- name: print results
-  debug:
-    msg: "{{ lineinfile_result.changed }}"
-
 - name: disable swap
   command: /sbin/swapoff -a
   when: lineinfile_result.changed

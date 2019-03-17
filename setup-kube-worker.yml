@@ -4,5 +4,4 @@
   gather_facts: yes 
   roles:
     - { role: common-packages, tags: common-packages }
-    - { role: consul, tags: consul }
-    - { role: consul-templates, tags: consul-templates }
+    - { role: worker-kubeadmin-join, tags: worker-kubeadmin-join }

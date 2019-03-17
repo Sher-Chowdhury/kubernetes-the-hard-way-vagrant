@@ -33,13 +33,13 @@ Vagrant.configure(2) do |config|
     kube_master.vm.box = "bento/ubuntu-16.04"
     kube_master.vm.hostname = "kube-master.example.com"
     # https://www.vagrantup.com/docs/virtualbox/networking.html
-    #kube_master.vm.network "private_network", ip: "10.2.5.110", :netmask => "255.255.255.0", virtualbox__intnet: "intnet2"
-
+    kube_master.vm.network "private_network", ip: "10.2.5.110", :netmask => "255.255.255.0", virtualbox__intnet: "intnet2"
+    # you can view this ip by running:   hostname -I
     kube_master.vm.network "forwarded_port", guest: 8500, host: 8500, protocol: 'tcp'
 
 
     kube_master.vm.provider "virtualbox" do |vb|
-      vb.gui = true
+      vb.gui = false
       vb.memory = "1024"
       vb.cpus = 2
       vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
@@ -62,21 +62,22 @@ Vagrant.configure(2) do |config|
     kube_worker.vm.box = "bento/ubuntu-16.04"
     kube_worker.vm.hostname = "kube-worker.example.com"
     kube_worker.vm.network "private_network", ip: "10.0.2.16"
-    #kube_worker.vm.network "private_network", ip: "10.2.5.111", :netmask => "255.255.255.0", virtualbox__intnet: "intnet2"
+    kube_worker.vm.network "private_network", ip: "10.2.5.111", :netmask => "255.255.255.0", virtualbox__intnet: "intnet2"
 
     kube_worker.vm.provider "virtualbox" do |vb|
-      vb.gui = true
+      vb.gui = false
       vb.memory = "1024"
       vb.cpus = 2
       vb.name = "centos7_kube_worker"
     end
 
-#    kube_worker.vm.provision "ansible" do |ansible|
-#      ansible.extra_vars = {
+    kube_worker.vm.provision "ansible" do |ansible|
+      ansible.compatibility_mode = '2.0'
+      #      ansible.extra_vars = {
 #        vm_role: "webserver"
 #      }
-#      ansible.playbook = "setup-kube-worker.yml"
-#    end
+      ansible.playbook = "setup-kube-worker.yml"
+    end
 
   end
 
