@@ -1,7 +1,0 @@
-{
-  "ui":true,
-  "retry_join":["10.2.5.110"],
-  "advertise_addr":"10.2.5.111",
-  "node_name":"consul-agent",
-  "data_dir":"/tmp/consul"
-}

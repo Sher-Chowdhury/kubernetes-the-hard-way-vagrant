@@ -1,5 +1,0 @@
-/var/consul/consul-template.log {
-  rotate 5
-  weekly
-  compress
-}

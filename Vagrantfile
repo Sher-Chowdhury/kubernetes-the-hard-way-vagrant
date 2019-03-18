@@ -59,33 +59,31 @@ Vagrant.configure(2) do |config|
 
   end
 
+  (1..1).each do |i|
+    config.vm.define "kube_worker#{i}" do |kube_worker|
+      kube_worker.vm.box = "bento/ubuntu-16.04"
+      kube_worker.vm.hostname = "kube-worker#{i}.example.com"
+      kube_worker.vm.network "private_network", ip: "10.2.5.11#{i}", :netmask => "255.255.255.0", virtualbox__intnet: "intnet2"
 
-  config.vm.define "kube_worker" do |kube_worker|
-    kube_worker.vm.box = "bento/ubuntu-16.04"
-    kube_worker.vm.hostname = "kube-worker.example.com"
-    kube_worker.vm.network "private_network", ip: "10.0.2.16"
-    kube_worker.vm.network "private_network", ip: "10.2.5.111", :netmask => "255.255.255.0", virtualbox__intnet: "intnet2"
+      kube_worker.vm.provider "virtualbox" do |vb|
+        vb.gui = false
+        vb.memory = "1024"
+        vb.cpus = 2
+        vb.name = "centos7_kube_worker#{i}"
+      end
 
-    kube_worker.vm.provider "virtualbox" do |vb|
-      vb.gui = false
-      vb.memory = "1024"
-      vb.cpus = 2
-      vb.name = "centos7_kube_worker"
+      kube_worker.vm.provision "ansible" do |ansible|
+        ansible.compatibility_mode = '2.0'
+        ansible.playbook = "setup-kube-worker.yml"
+      end
+
     end
-
-    kube_worker.vm.provision "ansible" do |ansible|
-      ansible.compatibility_mode = '2.0'
-      #      ansible.extra_vars = {
-#        vm_role: "webserver"
-#      }
-      ansible.playbook = "setup-kube-worker.yml"
-    end
-
   end
 
   config.vm.provision :hosts do |provisioner|
     provisioner.add_host '10.2.5.110', ['kube-master.example.com']
-    provisioner.add_host '10.2.5.111', ['kube-worker.example.com']
+    provisioner.add_host '10.2.5.111', ['kube-worker1.example.com']
+    provisioner.add_host '10.2.5.111', ['kube-worker2.example.com']
   end
 
 end

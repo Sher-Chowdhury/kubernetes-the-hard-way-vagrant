@@ -1,5 +1,0 @@
-/var/log/consul.log {
-  rotate 5
-  weekly
-  compress
-}
