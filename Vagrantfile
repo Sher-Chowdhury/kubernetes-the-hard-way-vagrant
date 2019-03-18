@@ -35,7 +35,11 @@ Vagrant.configure(2) do |config|
     # https://www.vagrantup.com/docs/virtualbox/networking.html
     kube_master.vm.network "private_network", ip: "10.2.5.110", :netmask => "255.255.255.0", virtualbox__intnet: "intnet2"
     # you can view this ip by running:   hostname -I
-    kube_master.vm.network "forwarded_port", guest: 8500, host: 8500, protocol: 'tcp'
+
+    # note: port forwarding won't work because:
+    # https://github.com/kubernetes/dashboard/wiki/Accessing-Dashboard---1.7.X-and-above#kubectl-proxy
+    # it will work if you run the kubectl proxy command from your macbook. 
+    kube_master.vm.network "forwarded_port", guest: 8001, host: 8001, protocol: 'tcp'
 
 
     kube_master.vm.provider "virtualbox" do |vb|
@@ -57,8 +61,8 @@ Vagrant.configure(2) do |config|
 
   end
 
-  (1..2).each do |i|
-    config.vm.define "kube_worker" do |kube_worker|
+  (1..1).each do |i|
+    config.vm.define "kube_worker#{i}" do |kube_worker|
       kube_worker.vm.box = "bento/ubuntu-16.04"
       kube_worker.vm.hostname = "kube-worker#{i}.example.com"
       kube_worker.vm.network "private_network", ip: "10.2.5.11#{i}", :netmask => "255.255.255.0", virtualbox__intnet: "intnet2"
@@ -67,14 +71,11 @@ Vagrant.configure(2) do |config|
         vb.gui = false
         vb.memory = "1024"
         vb.cpus = 2
-        vb.name = "centos7_kube_worker"
+        vb.name = "centos7_kube_worker#{i}"
       end
 
       kube_worker.vm.provision "ansible" do |ansible|
         ansible.compatibility_mode = '2.0'
-#       ansible.extra_vars = {
-#         vm_role: "webserver"
-#       }
         ansible.playbook = "setup-kube-worker.yml"
       end
 
