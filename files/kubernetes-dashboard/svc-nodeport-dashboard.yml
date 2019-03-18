@@ -1,0 +1,15 @@
+---
+# use the following instead of the 'kube proxy' command.
+apiVersion: v1
+kind: Service
+metadata:
+  name: svc-nodeport-dashboard
+  namespace: kube-system
+spec:
+  type: NodePort
+  ports:
+    - port: 8050
+      targetPort: 8443  # found this by running: kube edit kubectl edit pod kubernetes-dashboard-xxx --namespace=kube-system
+      nodePort: 31000
+  selector:
+    k8s-app: kubernetes-dashboard    # found this by running: kube edit kubectl edit pod kubernetes-dashboard-xxx --namespace=kube-system
