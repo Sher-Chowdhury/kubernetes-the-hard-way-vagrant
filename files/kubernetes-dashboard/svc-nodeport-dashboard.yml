@@ -10,6 +10,6 @@ spec:
   ports:
     - port: 8050
       targetPort: 8443  # found this by running: kube edit kubectl edit pod kubernetes-dashboard-xxx --namespace=kube-system
-      nodePort: 31000
+      nodePort: 31000    # need to portforward this in the vagrantfile. 
   selector:
     k8s-app: kubernetes-dashboard    # found this by running: kube edit kubectl edit pod kubernetes-dashboard-xxx --namespace=kube-system
