@@ -35,7 +35,9 @@ Vagrant.configure(2) do |config|
     # https://www.vagrantup.com/docs/virtualbox/networking.html
     kube_master.vm.network "private_network", ip: "10.2.5.110", :netmask => "255.255.255.0", virtualbox__intnet: "intnet2"
     # you can view this ip by running:   hostname -I
-    kube_master.vm.network "forwarded_port", guest: 8500, host: 8500, protocol: 'tcp'
+    # the following is needed for accessing the kubernetes dashboard, but can't get it working yet. 
+    kube_master.vm.network "forwarded_port", guest: 31000, host: 8500, protocol: 'tcp'
+
 
 
     kube_master.vm.provider "virtualbox" do |vb|
