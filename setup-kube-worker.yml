@@ -4,4 +4,4 @@
   gather_facts: yes 
   roles:
     - { role: common-packages, tags: common-packages }
-    - { role: worker-kubeadmin-join, tags: worker-kubeadmin-join }
+    - { role: worker-kubeadm-join, tags: worker-kubeadm-join }
