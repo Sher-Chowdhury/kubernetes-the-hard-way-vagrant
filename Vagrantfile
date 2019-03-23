@@ -50,9 +50,9 @@ Vagrant.configure(2) do |config|
 
     kube_master.vm.provision "ansible" do |ansible|
       ansible.compatibility_mode = '2.0'
-#      ansible.extra_vars = {
-#        vm_role: "kube_master"
-#      }
+      ansible.extra_vars = {
+        eth1_ip_address: "10.2.5.110"
+      }
       ansible.playbook = "setup-kube-master.yml"
     end
 
@@ -74,6 +74,9 @@ Vagrant.configure(2) do |config|
 
       kube_worker.vm.provision "ansible" do |ansible|
         ansible.compatibility_mode = '2.0'
+        ansible.extra_vars = {
+          eth1_ip_address: "10.2.5.11#{i}"
+        }
         ansible.playbook = "setup-kube-worker.yml"
       end
 
