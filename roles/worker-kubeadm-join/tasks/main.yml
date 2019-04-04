@@ -1,7 +1,7 @@
 ---
 
 - name: Get kube join command
-  shell: /bin/grep 'kubeadm join' /vagrant/kube_cache/kubeadm_init_output.txt | /bin/sed 's/^[[:space:]]*//'
+  shell: /usr/bin/tail -2 /vagrant/kube_cache/kubeadm_init_output.txt 
   register: join_command_output
 
 
