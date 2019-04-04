@@ -1,5 +1,10 @@
 ---
 
+- name: create kube_cache folder
+  file:
+    path: /vagrant/kube_cache
+    state: directory
+
 - name: Run kubeadm init command
   command: /usr/bin/kubeadm init --apiserver-advertise-address 10.2.5.110 --pod-network-cidr=192.168.0.0/16
   args:
