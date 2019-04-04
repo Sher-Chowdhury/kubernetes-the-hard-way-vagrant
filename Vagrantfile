@@ -56,6 +56,9 @@ Vagrant.configure(2) do |config|
       ansible.playbook = "setup-kube-master.yml"
     end
 
+    kube_master.trigger.after :destroy do |trigger|
+      trigger.run = {inline: "rm -rf ./kube_cache"}
+    end
 
   end
 
