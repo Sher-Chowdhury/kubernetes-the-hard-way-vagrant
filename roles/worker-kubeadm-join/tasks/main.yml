@@ -6,7 +6,7 @@
 
 
 - name: run kubeadm join command
-  command: "{{ join_command_output.stdout }}"
+  shell: "{{ join_command_output.stdout }}"
   args:
     creates: /etc/kubernetes/kubelet.conf
   
