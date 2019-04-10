@@ -45,7 +45,7 @@ Vagrant.configure(2) do |config|
       vb.memory = "1024"
       vb.cpus = 2
       vb.customize ["modifyvm", :id, "--clipboard", "bidirectional"]
-      vb.name = "centos7_kube_master"
+      vb.name = "ubuntu_kube_master"
     end
 
 #    kube_master.vm.provision "ansible" do |ansible|
@@ -72,7 +72,7 @@ Vagrant.configure(2) do |config|
         vb.gui = false
         vb.memory = "1024"
         vb.cpus = 2
-        vb.name = "centos7_kube_worker#{i}"
+        vb.name = "ubuntu_kube_worker#{i}"
       end
 
 #      kube_worker.vm.provision "ansible" do |ansible|
