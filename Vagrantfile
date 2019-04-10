@@ -62,7 +62,7 @@ Vagrant.configure(2) do |config|
 
   end
 
-  (1..2).each do |i|
+  (1..1).each do |i|
     config.vm.define "kube_worker#{i}" do |kube_worker|
       kube_worker.vm.box = "bento/ubuntu-16.04"
       kube_worker.vm.hostname = "kube-worker#{i}.example.com"
