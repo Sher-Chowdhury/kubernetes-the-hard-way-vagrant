@@ -89,7 +89,7 @@ Vagrant.configure(2) do |config|
   config.vm.provision :hosts do |provisioner|
     provisioner.add_host '10.2.5.110', ['kube-master.example.com']
     provisioner.add_host '10.2.5.111', ['kube-worker1.example.com']
-    provisioner.add_host '10.2.5.111', ['kube-worker2.example.com']
+    provisioner.add_host '10.2.5.112', ['kube-worker2.example.com']
   end
 
 end
