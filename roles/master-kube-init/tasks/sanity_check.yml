@@ -1,0 +1,10 @@
+---
+- name: created study guide folder
+  file:
+    path: /root/kubernetes-study-guide
+    state: directory
+
+- name: clone study guide git repo 
+  git:
+    repo: https://github.com/Sher-Chowdhury/Kubernetes-Study-Guide.git
+    dest: /root/kubernetes-study-guide

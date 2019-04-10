@@ -73,3 +73,5 @@
 #kube-controller-manager-kube-master   1/1     Running   0          106m   10.0.2.15   kube-master   <none>           <none>
 #kube-proxy-xvt5l                      1/1     Running   0          107m   10.0.2.15   kube-master   <none>           <none>
 #kube-scheduler-kube-master            1/1     Running   0          107m   10.0.2.15   kube-master   <none>           <none>
+
+- include_tasks: sanity_check.yml

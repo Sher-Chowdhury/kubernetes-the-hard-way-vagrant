@@ -1,6 +1,10 @@
 # Intro
 
-After cluster is built, you should do full end-2-end sanity tests:
+This repo's branch shows how to upgrade kubernetes using kubeadm. 
 
 
-[https://github.com/kubernetes/community/blob/master/contributors/devel/sig-testing/e2e-tests.md](https://github.com/kubernetes/community/blob/master/contributors/devel/sig-testing/e2e-tests.md)
+
+https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/kubeadm-upgrade-1-14/
+
+
+
